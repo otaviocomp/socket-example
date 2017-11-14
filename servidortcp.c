@@ -12,7 +12,6 @@ struct sockaddr_in servidor;
 
 int main(){
 	int tamservidor = sizeof(servidor);
-	int conectado;
 	int number;
 	// criar socket
 	int sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -29,15 +28,17 @@ int main(){
 	memset(servidor.sin_zero, 0, 8);
 
 	// associa um endereço ip a uma porta
-	if(bind(sock, (struct sockaddr*) &servidor, sizeof(servidor)) == -1){
+	int ok = bind(sock, (struct sockaddr*) &servidor, sizeof(servidor));
+	if(ok == -1){
 		perror("bind ");
 		exit(1);
 	}
 
+	// ouve a porta e espera por um cliente 
 	listen(sock, 1);
 	printf("servidor iniciado com sucesso!\n");
-
-	if((conectado = accept(sock,(struct sockaddr*) &servidor, &tamservidor)) == -1){
+	int conectado = accept(sock,(struct sockaddr*) &servidor, &tamservidor);
+	if(conectado == -1){
 		perror("accept ");
 		exit(1);
 	}

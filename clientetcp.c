@@ -30,7 +30,9 @@ int main(){
 	cliente.sin_addr.s_addr = inet_addr("127.0.0.1");
 	memset(cliente.sin_zero, 0, 8);
 
-	if(connect(sock,(struct sockaddr*) &cliente, tamcliente) == -1){
+	// conectar ao servidor
+	int conectar = connect(sock,(struct sockaddr*) &cliente, tamcliente); 
+	if(conectar == -1){
 		perror("connect ");
 		exit(1);
 	}
